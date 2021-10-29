@@ -1,28 +1,20 @@
-import {Switch,Route} from 'react-router-dom';
-import {routAdmin} from './definition';
+import { Switch, Route } from 'react-router-dom';
+import { routerAdmin } from './routes';
 
 function RouterAdmin() {
-    return (
-        <>
-         <Switch>
-             <Route exact path={routAdmin.home}>
-                 <h1>Admin Home</h1>
-             </Route>
-             <Route exact path={routAdmin.alumnos}>
-                    <h1>Admin alumnos</h1>
-             </Route>
-             <Route exact path={routAdmin.enfermeros}>
-                    <h1>Admin enfermero</h1>
-             </Route>
-             <Route exact path={routAdmin.history}>
-                    <h1>Admin history</h1>
-             </Route>
-             <Route exact path={routAdmin.profile}>
-                    <h1>Admin profile</h1>
-             </Route>
-        </Switch>   
-        </>
-    );
+       return (
+              <>
+                     <Switch>
+                            {
+                                   routerAdmin.map((values) => (
+                                          <Route exact path={values.path}>
+                                                 {values.component}
+                                          </Route>
+                                   ))
+                            }
+                     </Switch>
+              </>
+       );
 }
 
 export default RouterAdmin

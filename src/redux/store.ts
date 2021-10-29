@@ -17,19 +17,31 @@ const initialState:globalState = {
         genero: "",
         role: ""
     },
+    alumnos: [],
+    enfermeros:[]
 };
 function updateState(state = initialState, action: Action) {
     switch (action.type) {
         case actions.SET_USER:
             return {
                 ...state,
-                user: action.payload,
+                user:action.payload
             };
         case actions.ROLE:
             return {
                 ...state,
                 role: action.payload,
             };
+        case actions.SET_ALUMNOS:
+            return{
+                ...state,
+                alumnos: action.payload,
+            }
+        case actions.SET_ENFERMEROS:
+            return{
+                ...state,
+                enfermeros: action.payload,
+            }
         default:
             return {
                 ...state,

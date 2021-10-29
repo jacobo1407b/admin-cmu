@@ -1,15 +1,14 @@
 import {Switch,Route} from 'react-router-dom';
-import {routEnfe} from './definition';
+import {routerE} from './routes'
 function RouterAdmin() {
     return (
         <>
          <Switch>
-             <Route exact path={routEnfe.home}>
-                 <h1>Home</h1>
-             </Route>
-             <Route exact path={routEnfe.profile}>
-                    <h1>Profile</h1>
-             </Route>
+             {routerE.map((values)=>(
+                 <Route exact path={values.path}>
+                     {values.component}
+                 </Route>
+             ))}
         </Switch>   
         </>
     );

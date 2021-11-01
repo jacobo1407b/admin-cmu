@@ -13,6 +13,7 @@ function Profile() {
             <Grid stackable centered>
                 <Grid.Column width={7}>
                     <CardProfile
+                        image={user.url}
                         name={`${user.nombre} ${user.a_paterno} ${user.a_materno}`}
                         matriucla={user.matricula}
                     />

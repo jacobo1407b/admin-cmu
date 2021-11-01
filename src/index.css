@@ -14,7 +14,9 @@ button{
 body{
   background-color: #f5f5f5;
 }
-
+.custom-pading{
+  padding-left:0rem !important;
+}
 .ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
     border: 1px solid #21ba45 !important;
     border-radius: 100px !important;

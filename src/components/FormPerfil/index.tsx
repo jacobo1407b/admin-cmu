@@ -46,11 +46,14 @@ const FormPerfil: FunctionComponent<IFPerfil> = (props) => {
                     if (res.error) {
                         alert(res.msg)
                     } else {
-                        user.a_materno = res.data.a_materno
-                        user.nombre = res.data.nombre
-                        user.a_paterno = res.data.a_paterno
-                        user.correo = res.data.correo
-                        dispatch(patch.setUser(user))
+                        var upd = {
+                            ...user,
+                            a_materno:res.data.a_materno,
+                            nombre:res.data.nombre,
+                            a_paterno:res.data.a_paterno,
+                            correo:res.data.correo
+                        }
+                        dispatch(patch.setUser(upd))
                         alert('Actualizado con exito')
                     }
                 })

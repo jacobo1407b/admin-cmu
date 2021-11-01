@@ -1,8 +1,8 @@
-import { createStore } from "redux";
+import { createStore, compose} from "redux";
 import * as actions from "./accion";
-import {Action,globalState} from 'types';
+import { Action, globalState } from 'types';
 
-const initialState:globalState = {
+const initialState: globalState = {
     role: "",
     user: {
         id_usuario: "",
@@ -18,14 +18,20 @@ const initialState:globalState = {
         role: ""
     },
     alumnos: [],
-    enfermeros:[]
+    enfermeros: [],
+    modal: {
+        open: false,
+        title: "",
+        content: null
+    }
 };
+
 function updateState(state = initialState, action: Action) {
     switch (action.type) {
         case actions.SET_USER:
             return {
                 ...state,
-                user:action.payload
+                user: action.payload
             };
         case actions.ROLE:
             return {
@@ -33,14 +39,19 @@ function updateState(state = initialState, action: Action) {
                 role: action.payload,
             };
         case actions.SET_ALUMNOS:
-            return{
+            return {
                 ...state,
                 alumnos: action.payload,
             }
         case actions.SET_ENFERMEROS:
-            return{
+            return {
                 ...state,
                 enfermeros: action.payload,
+            }
+        case actions.SET_MODAL:
+            return {
+                ...state,
+                modal: action.payload,
             }
         default:
             return {
@@ -51,8 +62,10 @@ function updateState(state = initialState, action: Action) {
 }
 
 const store = createStore(
-    updateState
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    updateState,
+    compose(
+        (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );
 
 export default store;

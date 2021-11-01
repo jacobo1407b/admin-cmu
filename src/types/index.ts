@@ -36,12 +36,17 @@ export type User = {
     genero: string,
     role: string
 }
-
+export type Modal = {
+    title:string,
+    content:JSX.Element | null,
+    open:boolean
+}
 export type globalState = {
     user: User,
     role: string,
     alumnos: Alumno[] | null,
     enfermeros: Enfermero[] | null,
+    modal:Modal
 }
 export type Action = { type: string; payload: any }
 export interface IRuta {
@@ -57,4 +62,10 @@ export type UpdateUser = {
     error:boolean,
     msg:string,
     data:User
+}
+
+export type UserPromise = {
+    data:Alumno[]
+    msg: string,
+    error: boolean
 }

@@ -5,6 +5,7 @@ import * as action from 'redux/dispatch'
 import LayoutAdm from 'layout/admin.layout';
 import Elayout from 'layout/e.layout';
 import Login from 'layout/Login';
+import ModalCustom from 'components/ModalCustom';
 import { getUser } from 'api';
 
 function App() {
@@ -23,12 +24,15 @@ function App() {
         dispatch(action.setRole(res.role));
       }
     }).catch(err => {
+      dispatch(action.setUser(null));
+        dispatch(action.setRole(''));
       console.log(err);
     });
   }, [dispatch])
 
   return (
     <HashRouter>
+      <ModalCustom/>
       {
         !user ? (
           <Login />

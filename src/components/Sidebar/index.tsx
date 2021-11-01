@@ -2,8 +2,8 @@ import { useState, FunctionComponent, Fragment } from 'react';
 import { IRuta } from 'types';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'semantic-ui-react';
-import { useDispatch } from 'react-redux';
-import * as action from 'redux/dispatch'
+import useLogout from 'hooks/logout';
+
 
 interface ISidebar {
     items: IRuta[],
@@ -11,14 +11,12 @@ interface ISidebar {
 }
 const MenuLeft: FunctionComponent<ISidebar> = ({ open, items }): JSX.Element => {
 
-    const dispatch = useDispatch();
-
+    const {logout} = useLogout()
     const [menuItems] = useState(items)
     const [active, setactive] = useState<any>(0)
 
     async function isLogout() {
-        dispatch(action.setUser(null));
-        dispatch(action.setRole(''));
+        logout()
     }
 
     function select(id: any) {

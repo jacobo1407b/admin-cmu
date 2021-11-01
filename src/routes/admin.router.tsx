@@ -7,7 +7,7 @@ function RouterAdmin() {
                      <Switch>
                             {
                                    routerAdmin.map((values) => (
-                                          <Route exact path={values.path}>
+                                          <Route exact path={values.path} key={values.id}>
                                                  {values.component}
                                           </Route>
                                    ))

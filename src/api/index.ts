@@ -1,4 +1,4 @@
-import { UpdateUser,UserPromise } from 'types';
+import { UpdateUser,UserPromise,Carreras,Enfermero} from 'types';
 const token: string | null = localStorage.getItem('token');
 const apiUrl: string = 'http://localhost:3001/api/v1';
 
@@ -65,4 +65,29 @@ export function addImage(formdata: any): Promise<FormImage> {
 
 export function getAllAlumnos(): Promise<UserPromise> {
     return fetch(`${apiUrl}/client/get-alumnos`, requestOptions('GET', null, true)).then(response => response.json())
+}
+//getallCarreras
+export function getAllCarreras(): Promise<Carreras[]> {
+    return fetch(`${apiUrl}/carrera/get-all`, requestOptions('GET', null, true)).then(response => response.json())
+}
+
+export function registerAlumno(body: any): Promise<any> {
+    return fetch(`${apiUrl}/auth/create-alum`, requestOptions('POST', body, true)).then(response => response.json())
+}
+type EnfermeroRequArray={
+    error:boolean,
+    msg:string
+    data:Enfermero[]
+}
+type EnfermeroRequ={
+    error:boolean,
+    msg:string
+    data:Enfermero
+}
+export function getEnfermeros(): Promise<EnfermeroRequArray> {
+    return fetch(`${apiUrl}/client/get-enfermero`, requestOptions('GET', null, true)).then(response => response.json())
+}
+
+export function registerEnfermero(body: any): Promise<EnfermeroRequ> {
+    return fetch(`${apiUrl}/auth/create-enf`, requestOptions('POST', body, true)).then(response => response.json())
 }

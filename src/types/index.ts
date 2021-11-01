@@ -1,5 +1,9 @@
-import {SemanticICONS} from 'semantic-ui-react'
-
+import { SemanticICONS } from 'semantic-ui-react'
+export type Carreras = {
+    id_carrera: string,
+    carrera: string,
+    abreviatura: string
+}
 export type Enfermero = {
     matricula: string,
     id_usuario: string,
@@ -37,35 +41,36 @@ export type User = {
     role: string
 }
 export type Modal = {
-    title:string,
-    content:JSX.Element | null,
-    open:boolean
+    title: string,
+    content: JSX.Element | null,
+    open: boolean
 }
 export type globalState = {
     user: User,
     role: string,
     alumnos: Alumno[] | null,
     enfermeros: Enfermero[] | null,
-    modal:Modal
+    modal: Modal,
+    carreras: Carreras[] | null,
 }
 export type Action = { type: string; payload: any }
 export interface IRuta {
-    id:number,
-    path:string,
-    icon:SemanticICONS,
-    name:string,
-    component:JSX.Element,
-    active?:boolean
+    id: number,
+    path: string,
+    icon: SemanticICONS,
+    name: string,
+    component: JSX.Element,
+    active?: boolean
 }
 
 export type UpdateUser = {
-    error:boolean,
-    msg:string,
-    data:User
+    error: boolean,
+    msg: string,
+    data: User
 }
 
 export type UserPromise = {
-    data:Alumno[]
+    data: Alumno[]
     msg: string,
     error: boolean
 }

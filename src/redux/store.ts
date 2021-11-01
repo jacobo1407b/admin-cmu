@@ -1,4 +1,4 @@
-import { createStore, compose} from "redux";
+import { createStore, compose } from "redux";
 import * as actions from "./accion";
 import { Action, globalState } from 'types';
 
@@ -23,7 +23,8 @@ const initialState: globalState = {
         open: false,
         title: "",
         content: null
-    }
+    },
+    carreras: [],
 };
 
 function updateState(state = initialState, action: Action) {
@@ -52,6 +53,11 @@ function updateState(state = initialState, action: Action) {
             return {
                 ...state,
                 modal: action.payload,
+            }
+        case actions.SET_CARRERAS:
+            return {
+                ...state,
+                carreras: action.payload,
             }
         default:
             return {

@@ -1,28 +1,29 @@
 import { FunctionComponent, useState, useEffect } from 'react';
-import { Alumno, Enfermero } from 'types';
+import { Enfermero } from 'types';
 import { Header, Table, Button, Icon, Pagination } from 'semantic-ui-react';
 import CustomAvatar from 'components/CustomAvatar';
 
 interface ICTabla {
     headers: string[],
-    body?: Alumno[] | null,
+    body?: any,
     type?: "alumno" | "enfermero",
     bodyEnfermero?: Enfermero[],
+    onAdd?: any,
 }
-const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, type, bodyEnfermero }) => {
+const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd }) => {
     const pageSize: number = 7
 
-    const [arrayAlumnos, setArrayAlumnos] = useState<Alumno[] | null | undefined>(body);
-    var x:number = Number(arrayAlumnos?.length) / pageSize
+    const [arrayAlumnos, setArrayAlumnos] = useState<any>(body);
+    var x: number = Number(arrayAlumnos?.length) / pageSize
     const [page, setPage] = useState<number>(1);
     const [pageCont] = useState<number>(Math.ceil(x));
 
     useEffect(() => {
-        const arrayPaginate: Alumno[] | undefined = body?.slice((page - 1) * pageSize, page * pageSize);
+        const arrayPaginate: any = body?.slice((page - 1) * pageSize, page * pageSize);
         setArrayAlumnos(arrayPaginate)
     }, [body, page]);
 
-    function handlePaginationChange(e: any, {activePage}: any) {
+    function handlePaginationChange(e: any, { activePage }: any) {
         setPage(activePage);
     }
     return (
@@ -38,21 +39,21 @@ const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, type, bodyEnfe
             </Table.Header>
 
             <Table.Body>
-                {arrayAlumnos?.map((row) => (
+                {arrayAlumnos?.map((row: any) => (
                     <Table.Row key={row?.id_usuario}>
                         <Table.Cell>
                             <Header as='h4' inverted image>
-                                <CustomAvatar src={row.url} rounded size="mini" />
+                                <CustomAvatar src={row?.url} rounded size="mini" />
                                 <Header.Content>
-                                    {row.nombre}
-                                    <Header.Subheader>{row.matricula}</Header.Subheader>
+                                    {row?.nombre}
+                                    <Header.Subheader>{row?.matricula}</Header.Subheader>
                                 </Header.Content>
                             </Header>
                         </Table.Cell>
-                        <Table.Cell>{`${row.a_paterno} ${row.a_materno}`}</Table.Cell>
-                        <Table.Cell>{row.abreviatura}</Table.Cell>
-                        <Table.Cell>{row.correo}</Table.Cell>
-                        <Table.Cell>{row.genero}</Table.Cell>
+                        <Table.Cell>{`${row?.a_paterno} ${row?.a_materno}`}</Table.Cell>
+                        {row?.abreviatura && <Table.Cell>{row?.abreviatura}</Table.Cell>}
+                        <Table.Cell>{row?.correo}</Table.Cell>
+                        <Table.Cell>{row?.genero}</Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>
@@ -82,6 +83,7 @@ const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, type, bodyEnfe
                             color="orange"
                             size='small'
                             circular
+                            onClick={onAdd}
                         >
                             <Icon name='user' /> Agregar
                         </Button>

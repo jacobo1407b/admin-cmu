@@ -6,11 +6,11 @@ import LayoutAdm from 'layout/admin.layout';
 import Elayout from 'layout/e.layout';
 import Login from 'layout/Login';
 import ModalCustom from 'components/ModalCustom';
-import { getUser } from 'api';
+import { getUser} from 'api';
 
 function App() {
 
-  const user = useSelector<any|null>(state => state.user);
+  const user = useSelector<any | null>(state => state.user);
   const role = useSelector<any>(state => state.role)
   const dispatch = useDispatch();
 
@@ -25,14 +25,13 @@ function App() {
       }
     }).catch(err => {
       dispatch(action.setUser(null));
-        dispatch(action.setRole(''));
-      console.log(err);
+      dispatch(action.setRole(''));
     });
   }, [dispatch])
 
   return (
     <HashRouter>
-      <ModalCustom/>
+      <ModalCustom />
       {
         !user ? (
           <Login />

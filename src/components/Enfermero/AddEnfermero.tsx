@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Form, Button, Input, Select, Icon } from 'semantic-ui-react';
+import { Form, Button, Input, Select, Icon, Grid } from 'semantic-ui-react';
 import { registerEnfermero } from 'api';
 import { useSelector, useDispatch } from 'react-redux';
 import { Enfermero, globalState } from 'types';
 import * as patch from 'redux/dispatch';
-import { title } from 'process';
+
 
 interface IAForm {
     matricula: string,
@@ -53,6 +53,14 @@ const AddEnfermero = () => {
         })
         return valid;
     }
+
+    function closeModal(){
+        dispatch(patch.setModal({
+            open: false,
+            content: null,
+            title: ""
+        }))
+    }
     function onSubmit(e: any) {
         if (!validateForm()) {
             alert('Todos los campos son obligatorios');
@@ -78,15 +86,13 @@ const AddEnfermero = () => {
                         enfermeros?.push(enfermero);
                         dispatch(patch.setEnfermero(enfermeros))
                         alert('Se ha registrado correctamente');
-                        dispatch(patch.setModal({
-                            open: false,
-                            content: null,
-                            title: ""
-                        }))
+                        closeModal()
+                        
                     }
                 })
                 .catch(err => {
                     console.log(err);
+                    alert('Error al registrar');
                     setLoading(false);
                 })
         }
@@ -161,11 +167,29 @@ const AddEnfermero = () => {
                 <Form.Field>
                 </Form.Field>
             </Form>
-            <Button
-                onClick={onSubmit}
-            >
-                Agregar
-            </Button>
+            <Grid>
+                <Grid.Column width={8}>
+                    <Button
+                        circular
+                        fluid
+                        color="red"
+                        onClick={closeModal}
+                    >
+                        Cancelar
+                    </Button>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <Button
+                        circular
+                        fluid
+                        color="orange"
+                        onClick={onSubmit}
+                    >
+                        Agregar
+                    </Button>
+                </Grid.Column>
+            </Grid>
+
         </div>
     )
 }

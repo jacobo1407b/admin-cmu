@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FunctionComponent } from 'react';
 import { Button, Form, Input, Select, Icon, Grid } from 'semantic-ui-react';
 import { Carreras, globalState, Alumno } from 'types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as patch from 'redux/dispatch';
-import { registerAlumno } from 'api';
+import { registerAlumno,updateInfo } from 'api';
 interface IAForm {
     matricula: string,
     password: string,
@@ -12,9 +12,14 @@ interface IAForm {
     a_materno: string,
     correo: string,
     genero: string,
-    id_carrera: string
+    id_carrera: string,
 }
-const AddAlumno = () => {
+interface IAddAlumno {
+    edit?: boolean,
+    data?: Alumno,
+    i?: number
+}
+const AddAlumno: FunctionComponent<IAddAlumno> = ({ edit, data,i }) => {
     const dispatch = useDispatch();
     const generoOpt = [
         { key: 'M', value: 'Masculino', text: 'Masculino' },
@@ -24,9 +29,8 @@ const AddAlumno = () => {
     const alumnos: any = useSelector((state: globalState) => state.alumnos)
     const [options, setoptions] = useState<any>([])
     const [show, setsSow] = useState<boolean>(false)
-    const [formAlumno, setformAlumno] = useState<IAForm>(initialForm());
+    const [formAlumno, setformAlumno] = useState<IAForm>(initialForm(data,edit));
     const [loading, setloading] = useState<boolean>(false)
-
     useEffect(() => {
         const arrayCarrerasTemp: any = [];
         carreras?.map((carrera: Carreras) => {
@@ -119,29 +123,75 @@ const AddAlumno = () => {
 
     }
 
+    function onEdit() {
+        if(!validateForm()){
+            alert('Todos los campos son obligatorios')
+        }else{
+            setloading(true)
+            updateInfo(data?.id_usuario,formAlumno)
+            .then((res:any)=>{
+                setloading(false)
+                if(res.error){
+                    alert('Error al actualizar')
+                }else{
+                    const num:number =Number(i)
+                    const alumn = alumnos;
+                    dispatch(patch.setAlumnos(null))
+                    var userAlum = {
+                        matricula: res.data.matricula,
+                        id_usuario: res.data.id_usuario,
+                        url: res.data.url,
+                        nombre: res.data.nombre,
+                        a_paterno: res.data.a_paterno,
+                        a_materno: res.data.a_materno,
+                        correo: res.data.correo,
+                        genero: res.data.genero,
+                        carrera: res.data?.carrera?.carrera,
+                        abreviatura: res.data.carrera?.abreviatura,
+                        id_carrera: res.data.id_carrera
+                    }
+                    alumn[num] = userAlum
+                    dispatch(patch.setAlumnos(alumn))
+                    alert('Alumno actualizado con exito')
+                    closeModal();
+                }
+            })
+            .catch(err=>{
+                setloading(false)
+                console.log(err)
+                alert('Error al actualizar')
+            })
+        }
+    }
+
     return (
         <div>
             <Form loading={loading}>
-                <Form.Field>
-                    <Input
-                        icon="address card outline"
-                        placeholder='Matricula'
-                        name='matricula'
-                        onChange={handleChange}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Input
-                        icon={<Icon name={show ? "lock open" : "lock"} link onClick={onShowPassword} />}
-                        type={show ? 'text' : 'password'}
-                        placeholder='Password'
-                        name='password'
-                        onChange={handleChange}
-                    />
-                </Form.Field>
+                {!edit && (
+                    <>
+                        <Form.Field>
+                            <Input
+                                icon="address card outline"
+                                placeholder='Matricula'
+                                name='matricula'
+                                onChange={handleChange}
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Input
+                                icon={<Icon name={show ? "lock open" : "lock"} link onClick={onShowPassword} />}
+                                type={show ? 'text' : 'password'}
+                                placeholder='Password'
+                                name='password'
+                                onChange={handleChange}
+                            />
+                        </Form.Field>
+                    </>
+                )}
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <Input
+                            defaultValue={data?.nombre}
                             icon="user"
                             placeholder='Nombre'
                             name="nombre"
@@ -150,6 +200,7 @@ const AddAlumno = () => {
                     </Form.Field>
                     <Form.Field>
                         <Input
+                            defaultValue={data?.a_paterno}
                             icon="user"
                             placeholder='Apellido paterno'
                             name="a_paterno"
@@ -160,6 +211,7 @@ const AddAlumno = () => {
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <Input
+                            defaultValue={data?.a_materno}
                             icon="user"
                             placeholder='Apellido Materno'
                             name="a_materno"
@@ -168,6 +220,7 @@ const AddAlumno = () => {
                     </Form.Field>
                     <Form.Field>
                         <Input
+                            defaultValue={data?.correo}
                             icon="mail"
                             type='email'
                             name="correo"
@@ -179,6 +232,7 @@ const AddAlumno = () => {
                 <Form.Group widths="equal">
                     <Form.Field>
                         <Select
+                            defaultValue={data?.genero}
                             name="genero"
                             id="genero"
                             placeholder='Seleccionar genero'
@@ -189,6 +243,7 @@ const AddAlumno = () => {
 
                     <Form.Field>
                         <Select
+                            defaultValue={data?.abreviatura}
                             placeholder='Seleccionar carrera'
                             options={options}
                             onChange={changeSelectCarrera}
@@ -212,9 +267,9 @@ const AddAlumno = () => {
                         fluid
                         circular
                         color="green"
-                        onClick={handleSubmit}
+                        onClick={edit ? onEdit : handleSubmit}
                     >
-                        Registrar
+                        {edit ? 'Actualizar' : 'Registrar'}
                     </Button>
                 </Grid.Column>
             </Grid>
@@ -222,16 +277,16 @@ const AddAlumno = () => {
         </div>
     )
 }
-function initialForm() {
+function initialForm(data?: Alumno,edit?:boolean) {
     return {
-        matricula: '',
-        password: '',
-        nombre: '',
-        a_paterno: '',
-        a_materno: '',
-        correo: '',
-        genero: '',
-        id_carrera: ''
+        matricula: data?.matricula || '',
+        password: edit?'0':'',
+        nombre: data?.nombre || '',
+        a_paterno: data?.a_paterno || '',
+        a_materno: data?.a_materno || '',
+        correo: data?.correo || '',
+        genero: data?.genero || '',
+        id_carrera: data?.id_carrera || '',
     }
 }
 export default AddAlumno;

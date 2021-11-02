@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 import { Enfermero } from 'types';
-import { Header, Table, Button, Icon, Pagination } from 'semantic-ui-react';
+import { Header, Table, Button, Icon, Pagination, Popup } from 'semantic-ui-react';
 import CustomAvatar from 'components/CustomAvatar';
 
 interface ICTabla {
@@ -9,8 +9,14 @@ interface ICTabla {
     type?: "alumno" | "enfermero",
     bodyEnfermero?: Enfermero[],
     onAdd?: any,
+    onEdit?: any,
+    onPassword?: any,
+    onEditMatricula?: any,
+    onDelete?: any,
 }
-const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd }) => {
+
+
+const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd, onEdit, onPassword, onEditMatricula,onDelete }) => {
     const pageSize: number = 7
 
     const [arrayAlumnos, setArrayAlumnos] = useState<any>(body);
@@ -26,6 +32,8 @@ const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd }) => {
     function handlePaginationChange(e: any, { activePage }: any) {
         setPage(activePage);
     }
+
+
     return (
         <Table inverted basic='very' color="black" collapsing>
             <Table.Header>
@@ -39,7 +47,7 @@ const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd }) => {
             </Table.Header>
 
             <Table.Body>
-                {arrayAlumnos?.map((row: any) => (
+                {arrayAlumnos?.map((row: any, i: number) => (
                     <Table.Row key={row?.id_usuario}>
                         <Table.Cell>
                             <Header as='h4' inverted image>
@@ -54,6 +62,56 @@ const TablaCustom: FunctionComponent<ICTabla> = ({ headers, body, onAdd }) => {
                         {row?.abreviatura && <Table.Cell>{row?.abreviatura}</Table.Cell>}
                         <Table.Cell>{row?.correo}</Table.Cell>
                         <Table.Cell>{row?.genero}</Table.Cell>
+                        <Table.Cell>
+                            <Popup
+                                trigger={<Button
+                                    icon="cog"
+                                    circular
+                                    size="mini"
+                                    color="blue"
+                                    onClick={() => onEdit(row, i)}
+                                />}
+                                content='Editar información'
+                                inverted
+                                size='mini'
+                            />
+                            <Popup
+                                trigger={<Button
+                                    icon="id card"
+                                    circular
+                                    size="mini"
+                                    color="orange"
+                                    onClick={()=>onEditMatricula(row,i)}
+                                />}
+                                content='Editar matricula'
+                                inverted
+                                size='mini'
+                            />
+                            <Popup
+                                trigger={<Button
+                                    icon="key"
+                                    circular
+                                    size="mini"
+                                    color="green"
+                                    onClick={() => onPassword(row, i)}
+                                />}
+                                content='Editar password'
+                                inverted
+                                size='mini'
+                            />
+                            <Popup
+                                trigger={<Button 
+                                    icon="user delete" 
+                                    circular
+                                     size="mini" 
+                                     color="red"
+                                     onClick={() => onDelete(row, i)}
+                                      />}
+                                content='Eliminar'
+                                inverted
+                                size='mini'
+                            />
+                        </Table.Cell>
                     </Table.Row>
                 ))}
             </Table.Body>

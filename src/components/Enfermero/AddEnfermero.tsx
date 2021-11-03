@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, FunctionComponent } from 'react';
 import { Form, Button, Input, Select, Icon, Grid } from 'semantic-ui-react';
-import { registerEnfermero } from 'api';
+import { registerEnfermero,updateInfo } from 'api';
 import { useSelector, useDispatch } from 'react-redux';
 import { Enfermero, globalState } from 'types';
 import * as patch from 'redux/dispatch';
@@ -17,14 +17,19 @@ interface IAForm {
     id_carrera: null
 }
 
+interface IAddEnfermero {
+    edit?: boolean,
+    data?: Enfermero,
+    i?: number
+}
 
-const AddEnfermero = () => {
+
+const AddEnfermero: FunctionComponent<IAddEnfermero> = ({ edit, data, i }) => {
     const dispatch = useDispatch();
 
-
-    const enfermeros: Enfermero[] | null = useSelector((state: globalState) => state.enfermeros)
+    const enfermeros: any = useSelector((state: globalState) => state.enfermeros)
     const [showPassword, setshowPassword] = useState<boolean>(false);
-    const [formData, setFormData] = useState<IAForm>(initialForm())
+    const [formData, setFormData] = useState<IAForm>(initialForm(data, edit))
     const [loading, setLoading] = useState<boolean>(false)
 
 
@@ -54,7 +59,7 @@ const AddEnfermero = () => {
         return valid;
     }
 
-    function closeModal(){
+    function closeModal() {
         dispatch(patch.setModal({
             open: false,
             content: null,
@@ -87,7 +92,7 @@ const AddEnfermero = () => {
                         dispatch(patch.setEnfermero(enfermeros))
                         alert('Se ha registrado correctamente');
                         closeModal()
-                        
+
                     }
                 })
                 .catch(err => {
@@ -97,29 +102,72 @@ const AddEnfermero = () => {
                 })
         }
     }
+
+    function onEdit(){
+        if(!validateForm()){
+            alert('Todos los campos son obligatorios');
+        }else{
+            setLoading(true);
+            updateInfo(data?.id_usuario,formData)
+            .then(res=>{
+                setLoading(false);
+                if(res.error){
+                    alert(res.msg)
+                }else{
+                    var x = Number(i)
+                    var enf = enfermeros;
+                    enf[x]= {
+                        matricula: res.data.matricula,
+                        a_materno: res.data.a_materno,
+                        a_paterno: res.data.a_paterno,
+                        nombre: res.data.nombre,
+                        correo: res.data.correo,
+                        genero: res.data.genero,
+                        url: res.data.url,
+                        id_usuario: res.data.id_usuario,
+                    }
+                    dispatch(patch.setEnfermero(enf))
+                    alert('Se ha actualizado correctamente');
+                    closeModal()
+                }
+            })
+            .catch(err=>{
+                setLoading(false);
+                alert('Error al actualizar');
+                console.log(err);
+            })
+        }
+    }
     return (
         <div>
             <Form loading={loading}>
-                <Form.Field>
-                    <Input
-                        onChange={handlerChange}
-                        name="matricula"
-                        icon="address card outline"
-                        placeholder="Matricula"
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Input
-                        onChange={handlerChange}
-                        type={showPassword ? 'text' : 'password'}
-                        icon={<Icon name={showPassword ? 'lock open' : 'lock'} link onClick={onShowPassword} />}
-                        placeholder="Password"
-                        name="password"
-                    />
-                </Form.Field>
+                {!edit && (
+                    <>
+                        <Form.Field>
+                            <Input
+
+                                onChange={handlerChange}
+                                name="matricula"
+                                icon="address card outline"
+                                placeholder="Matricula"
+                            />
+                        </Form.Field>
+                        <Form.Field>
+                            <Input
+                                onChange={handlerChange}
+                                type={showPassword ? 'text' : 'password'}
+                                icon={<Icon name={showPassword ? 'lock open' : 'lock'} link onClick={onShowPassword} />}
+                                placeholder="Password"
+                                name="password"
+                            />
+                        </Form.Field>
+                    </>
+                )}
+
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <Input
+                            defaultValue={formData.nombre}
                             onChange={handlerChange}
                             placeholder="Nombre Medico"
                             icon="user doctor"
@@ -128,6 +176,7 @@ const AddEnfermero = () => {
                     </Form.Field>
                     <Form.Field>
                         <Input
+                            defaultValue={formData.a_paterno}
                             onChange={handlerChange}
                             placeholder="Apellido paterno"
                             icon="user doctor"
@@ -139,6 +188,7 @@ const AddEnfermero = () => {
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <Input
+                            defaultValue={formData.a_materno}
                             onChange={handlerChange}
                             placeholder="Apellido materno"
                             icon="user doctor"
@@ -147,6 +197,7 @@ const AddEnfermero = () => {
                     </Form.Field>
                     <Form.Field>
                         <Input
+                            defaultValue={formData.correo}
                             onChange={handlerChange}
                             placeholder="Correo electronico"
                             name="correo"
@@ -157,7 +208,7 @@ const AddEnfermero = () => {
                 </Form.Group>
                 <Form.Field>
                     <Select
-
+                        defaultValue={formData.genero}
                         name="genero"
                         placeholder="Genero"
                         options={getOption()}
@@ -183,9 +234,9 @@ const AddEnfermero = () => {
                         circular
                         fluid
                         color="orange"
-                        onClick={onSubmit}
+                        onClick={edit ? onEdit : onSubmit}
                     >
-                        Agregar
+                        {edit ? 'Editar' : 'Registrar'}
                     </Button>
                 </Grid.Column>
             </Grid>
@@ -194,15 +245,15 @@ const AddEnfermero = () => {
     )
 }
 
-function initialForm() {
+function initialForm(data?: Enfermero, edit?: boolean) {
     return {
-        matricula: '',
-        password: '',
-        nombre: '',
-        a_paterno: '',
-        a_materno: '',
-        correo: '',
-        genero: '',
+        matricula: data?.matricula || '',
+        password: edit ? '0' : '',
+        nombre: data?.nombre || '',
+        a_paterno: data?.a_paterno || '',
+        a_materno: data?.a_materno || '',
+        correo: data?.correo || '',
+        genero: data?.genero || '',
         id_carrera: null
     }
 }

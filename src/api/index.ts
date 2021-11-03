@@ -7,7 +7,13 @@ function requestOptions(method: string, body?: any, whitoken?: boolean): Request
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "BEARER " + token);
-    if (method === 'GET') {
+    if (method === "DELETE") {
+        return {
+            method: method,
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+    } else if (method === 'GET') {
         return {
             method: method,
             headers: myHeaders,
@@ -94,5 +100,5 @@ export function registerEnfermero(body: any): Promise<EnfermeroRequ> {
 }
 /**queda pendiente de realizar api */
 export function deleteUser(id: string) {
-    return fetch(`${apiUrl}/auth/delete-user/${id}`, requestOptions('DELETE', null, true)).then(response => response.json())
+    return fetch(`${apiUrl}/client/delete-user/${id}`, requestOptions('DELETE', null, true)).then(response => response.json())
 }

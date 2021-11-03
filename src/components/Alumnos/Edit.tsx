@@ -1,17 +1,18 @@
 import { FunctionComponent, useState } from 'react';
-import { Alumno } from 'types'
+import { Alumno,Enfermero} from 'types'
 import { Button, Form, Input, Icon, Grid } from 'semantic-ui-react';
 import { useDispatch } from 'react-redux';
 import * as patch from 'redux/dispatch';
-import { updatePassword,updateMatricula} from 'api';
+import { updatePassword, updateMatricula } from 'api';
 
 interface IProps {
     type: "password" | "matricula"
-    data: Alumno
+    data: Alumno | any
     i: number
-    ctxA: any
+    ctxA?: any
+    ctxE?: any
 }
-const Edit: FunctionComponent<IProps> = ({ type, data,ctxA,i }) => {
+const Edit: FunctionComponent<IProps> = ({ type, data, ctxA, i,ctxE }) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -62,36 +63,47 @@ const Edit: FunctionComponent<IProps> = ({ type, data,ctxA,i }) => {
         }
     }
 
-    function onSubmitMatricula(){
-        if(matricula.length<11 || !matricula){
+    function onSubmitMatricula() {
+        if (matricula.length < 11 || !matricula) {
             alert("La Matricula debe tener al menos 11 caracteres")
-        }else{
+        } else {
             setLoading(true);
-            updateMatricula(data.id_usuario,matricula)
-            .then(res=>{
-                console.log(res)
-                setLoading(false);
-                if(res.msg==="Esta matricula ya existe"){
-                    alert(res.msg)
-                }else{
-                    //;
-                    var tempArray = ctxA;
-                    dispatch(patch.setAlumnos(null))
-                    const alumnoNuevo:Alumno = {
-                        ...data,
-                        matricula:matricula
+            updateMatricula(data.id_usuario, matricula)
+                .then(res => {
+                    setLoading(false);
+                    if (res.msg === "Esta matricula ya existe") {
+                        alert(res.msg)
+                    } else {
+                        if (ctxA) {
+                            var tempArray = ctxA;
+                            dispatch(patch.setAlumnos(null))
+                            const alumnoNuevo: Alumno = {
+                                ...data,
+                                matricula: matricula
+                            }
+                            tempArray[i] = alumnoNuevo;
+                            dispatch(patch.setAlumnos(tempArray))
+                        } else {
+                            var tempArrayE = ctxE;
+                            dispatch(patch.setAlumnos(null))
+                            const enfNuevo: Enfermero={
+                                ...data,
+                                matricula:matricula
+                            }
+                            tempArrayE[i] = enfNuevo;
+                            dispatch(patch.setEnfermero(tempArray))
+                        }
+
+                        alert("Matricula actualizada");
+
+                        closeModal()
                     }
-                    tempArray[i] = alumnoNuevo;
-                    alert("Matricula actualizada");
-                    dispatch(patch.setAlumnos(tempArray))
-                    closeModal()
-                }
-            })
-            .catch(err=>{
-                setLoading(false);
-                alert("Error al actualizar la matricula")
-                console.log(err)
-            })
+                })
+                .catch(err => {
+                    setLoading(false);
+                    alert("Error al actualizar la matricula")
+                    console.log(err)
+                })
         }
     }
     return (
@@ -140,7 +152,7 @@ const Edit: FunctionComponent<IProps> = ({ type, data,ctxA,i }) => {
                         circular
                         fluid
                         color='green'
-                        onClick={type==="password"?onSubmitPassword:onSubmitMatricula}
+                        onClick={type === "password" ? onSubmitPassword : onSubmitMatricula}
                     >
                         Actualizar
                     </Button>

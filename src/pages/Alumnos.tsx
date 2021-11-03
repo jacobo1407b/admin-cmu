@@ -7,6 +7,7 @@ import AddAlumno from 'components/Alumnos/Add';
 import Edit from 'components/Alumnos/Edit';
 import Delete from 'components/Delete';
 
+
 const arrayHeader = [
     'Alumno',
     'Apellidos',
@@ -56,7 +57,9 @@ function Alumnos() {
             open: true,
             title: `Eliminar ${data.matricula}`,
             content: <Delete
-                data={data}
+                id={data.id_usuario}
+                matricula={data.matricula}
+                type="alumno"
                 i={index}
             />,
         }));

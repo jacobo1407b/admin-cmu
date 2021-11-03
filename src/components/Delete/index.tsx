@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import { Grid, Button } from 'semantic-ui-react';
-import { globalState, Alumno, Enfermero } from 'types';
+import { globalState } from 'types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as patch from 'redux/dispatch';
 import { deleteUser } from 'api';

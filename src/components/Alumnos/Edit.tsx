@@ -91,7 +91,7 @@ const Edit: FunctionComponent<IProps> = ({ type, data, ctxA, i,ctxE }) => {
                                 matricula:matricula
                             }
                             tempArrayE[i] = enfNuevo;
-                            dispatch(patch.setEnfermero(tempArray))
+                            dispatch(patch.setEnfermero(tempArrayE))
                         }
 
                         alert("Matricula actualizada");

@@ -22,7 +22,9 @@ const FormPerfil: FunctionComponent<IFPerfil> = (props) => {
     const dispatch = useDispatch()
 
     const user: User = useSelector((state: globalState) => state.user);
+    const role: string = useSelector((state: globalState) => state.role);
     const [formPerfil, setFormPerfil] = useState<IFPerfil>(props);
+    const [onEnfermero] = useState<boolean>(role === 'Enfermero' ? true : false)
     const [loading, setloading] = useState<boolean>(false)
 
     function onChange(e: any) {
@@ -48,10 +50,10 @@ const FormPerfil: FunctionComponent<IFPerfil> = (props) => {
                     } else {
                         var upd = {
                             ...user,
-                            a_materno:res.data.a_materno,
-                            nombre:res.data.nombre,
-                            a_paterno:res.data.a_paterno,
-                            correo:res.data.correo
+                            a_materno: res.data.a_materno,
+                            nombre: res.data.nombre,
+                            a_paterno: res.data.a_paterno,
+                            correo: res.data.correo
                         }
                         dispatch(patch.setUser(upd))
                         alert('Actualizado con exito')
@@ -69,33 +71,56 @@ const FormPerfil: FunctionComponent<IFPerfil> = (props) => {
                 <Form onChange={onChange}>
                     <Form.Field>
                         <label>Nombre</label>
-                        <Input placeholder="Nombre" name="nombre" defaultValue={formPerfil.nombre} />
+                        <Input
+                            disabled={onEnfermero ? true : false}
+                            placeholder="Nombre"
+                            name="nombre"
+                            defaultValue={formPerfil.nombre}
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Apellido paterno</label>
-                        <Input placeholder="Apellido paterno" name="a_paterno" defaultValue={formPerfil.a_paterno} />
+                        <Input
+                            placeholder="Apellido paterno"
+                            name="a_paterno"
+                            defaultValue={formPerfil.a_paterno}
+                            disabled={onEnfermero ? true : false}
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Apellido materno</label>
-                        <Input placeholder="Apellido materno" name="a_materno" defaultValue={formPerfil.a_materno} />
+                        <Input
+                            placeholder="Apellido materno"
+                            name="a_materno"
+                            disabled={onEnfermero ? true : false}
+                            defaultValue={formPerfil.a_materno}
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Correo</label>
-                        <Input placeholder="Correo electronico" name="correo" defaultValue={formPerfil.correo} />
+                        <Input
+                            placeholder="Correo electronico"
+                            name="correo"
+                            defaultValue={formPerfil.correo}
+                            disabled={onEnfermero ? true : false}
+                        />
                     </Form.Field>
                 </Form>
             </CardContent>
             <CardActions>
-                <Button
-                    fluid
-                    circular
-                    color="orange"
-                    size="small"
-                    onClick={onSubmit}
-                    loading={loading}
-                >
-                    Actualizar
-                </Button>
+                {!onEnfermero && (
+                    <Button
+                        fluid
+                        circular
+                        color="orange"
+                        size="small"
+                        onClick={onSubmit}
+                        loading={loading}
+                    >
+                        Actualizar
+                    </Button>
+                )}
+
             </CardActions>
         </Card>
     )

@@ -2,18 +2,26 @@ import { UpdateUser, UserPromise, Carreras, Enfermero } from 'types';
 const apiUrl: string = 'http://localhost:3001/api/v1';
 
 
+
+function requestDelete(method: string): RequestInit {
+    const token: string | null = localStorage.getItem('token');
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "BEARER " + token);
+
+    return {
+        method: method,
+        headers: myHeaders,
+        redirect: 'follow'
+    }
+
+}
 function requestOptions(method: string, body?: any, whitoken?: boolean): RequestInit {
     const token: string | null = localStorage.getItem('token');
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "BEARER " + token);
-    if (method === "DELETE") {
-        return {
-            method: method,
-            headers: myHeaders,
-            redirect: 'follow'
-        }
-    } else if (method === 'GET') {
+    if (method === 'GET') {
         return {
             method: method,
             headers: myHeaders,
@@ -28,14 +36,15 @@ function requestOptions(method: string, body?: any, whitoken?: boolean): Request
         };
     }
 }
-
+//pablo110sec@gmail.com
 export function login(matricula: string, password: string): Promise<any> {
     var body = { matricula, password };
     return fetch(`${apiUrl}/auth/login`, requestOptions('POST', body)).then(response => response.json())
 }
 
 export function getUser(): Promise<any> {
-    return fetch(`${apiUrl}/auth/get`, requestOptions('GET', null, true)).then(response => response.json())
+
+    return fetch(`${apiUrl}/auth/get`, requestOptions('GET',null,true)).then(response => response.json())
 }
 
 
@@ -100,5 +109,5 @@ export function registerEnfermero(body: any): Promise<EnfermeroRequ> {
 }
 /**queda pendiente de realizar api */
 export function deleteUser(id: string) {
-    return fetch(`${apiUrl}/client/delete-user/${id}`, requestOptions('DELETE', null, true)).then(response => response.json())
+    return fetch(`${apiUrl}/client/delete-user/${id}`, requestDelete('DELETE')).then(response => response.json())
 }

@@ -9,7 +9,7 @@ import Loader from 'assets/loader.gif';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import UpdateM from 'components/UpdateM';
-import { useDispatch ,useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addImage } from 'api';
 import * as patch from 'redux/dispatch';
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const CardProfile: FunctionComponent<ICProfile> = ({ image, name, matriucla }) => {
 
     const user: User = useSelector((state: globalState) => state.user);
+    const role: string = useSelector((state: globalState) => state.role);
 
     const [urlImage, seturlImage] = useState<string | undefined>(image);
     const dispatch = useDispatch()
@@ -48,10 +49,10 @@ const CardProfile: FunctionComponent<ICProfile> = ({ image, name, matriucla }) =
                     seturlImage(image)
                 } else {
                     seturlImage(res.resolve.url);
-                    var newuser ={
+                    var newuser = {
                         ...user,
-                        url:res.resolve.url,
-                        name_image:res.resolve.name_image
+                        url: res.resolve.url,
+                        name_image: res.resolve.name_image
                     }
                     dispatch(patch.setUser(newuser))
                     alert(res.msg);
@@ -62,7 +63,7 @@ const CardProfile: FunctionComponent<ICProfile> = ({ image, name, matriucla }) =
                 alert('Error del servidor');
                 seturlImage(image)
             })
-    }, [seturlImage,dispatch,image,user])
+    }, [seturlImage, dispatch, image, user])
 
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -72,11 +73,16 @@ const CardProfile: FunctionComponent<ICProfile> = ({ image, name, matriucla }) =
     })
 
     function openEdit() {
-        dispatch(patch.setModal({
-            open: true,
-            title: "Actualizar Contraseña y Matricula",
-            content: <UpdateM />
-        }))
+        if (role === "Enfermero") {
+            return false
+        } else {
+            dispatch(patch.setModal({
+                open: true,
+                title: "Actualizar Contraseña y Matricula",
+                content: <UpdateM />
+            }))
+        }
+
     }
     return (
         <div>

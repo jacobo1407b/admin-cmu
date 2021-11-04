@@ -1,4 +1,16 @@
 import { SemanticICONS } from 'semantic-ui-react'
+
+export type SolicitudRealtime = {
+    alumno: string,
+    causa: string,
+    enfermero_nombre?: string,
+    enfermero_apellido?:string
+    estado: boolean,
+    id_solicitud: string,
+    img_enfermero?: string,
+    nombre_solicitante: string | null,
+    ubicacion: string,
+}
 export type Carreras = {
     id_carrera: string,
     carrera: string,
@@ -52,6 +64,7 @@ export type globalState = {
     enfermeros: Enfermero[] | null,
     modal: Modal,
     carreras: Carreras[] | null,
+    solicitudes:SolicitudRealtime[]
 }
 export type Action = { type: string; payload: any }
 export interface IRuta {
@@ -73,4 +86,21 @@ export type UserPromise = {
     data: Alumno[]
     msg: string,
     error: boolean
+}
+
+export type Carrera = {
+    id_carrera: string,
+    carrera: string,
+    abreviatura: string
+}
+export type SolicitudReq = {
+    alumno: User
+    ubicacion: string,
+    causas: string,
+    solicitante: boolean,
+    nombre_solicitante: string | null,
+    fecha: number | Date,
+    id_medico?: string | null,
+    id_alumno: string,
+    carrera?: Carrera
 }

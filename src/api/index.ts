@@ -111,3 +111,7 @@ export function registerEnfermero(body: any): Promise<EnfermeroRequ> {
 export function deleteUser(id: string) {
     return fetch(`${apiUrl}/client/delete-user/${id}`, requestDelete('DELETE')).then(response => response.json())
 }
+
+export function getSolicitudesHoy(){
+    return fetch(`${apiUrl}/history/hoy`, requestOptions('GET',null,true)).then(response => response.json())
+}

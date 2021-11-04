@@ -44,19 +44,24 @@ export const routerAdmin: IRuta[] = [
     }
 ]
 
-export const routerE: IRuta[] = [
-    {
-        id: 1,
-        path: routEnfe.home,
-        icon: 'grid layout',
-        name: "Home",
-        component: <Dashboard />
-    },
-    {
-        id: 2,
-        path: routEnfe.profile,
-        icon: 'chart pie',
-        name: "Perfil",
-        component: <Profile />
-    }
-]
+interface IRouter{
+    updateStatus:(id_alerta:string,id_enfermero:string)=>void
+}
+export function routerE(fun:IRouter):IRuta[]{
+    return[
+        {
+            id: 1,
+            path: routEnfe.home,
+            icon: 'grid layout',
+            name: "Home",
+            component: <Dashboard updateStatus={fun.updateStatus}/>
+        },
+        {
+            id: 2,
+            path: routEnfe.profile,
+            icon: 'chart pie',
+            name: "Perfil",
+            component: <Profile />
+        }
+    ]
+}

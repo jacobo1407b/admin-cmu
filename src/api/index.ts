@@ -1,6 +1,6 @@
 import { UpdateUser, UserPromise, Carreras, Enfermero } from 'types';
-const apiUrl: string = 'http://localhost:3001/api/v1';
-
+const apiUrl: string = 'http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/api/v1';
+//http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/
 
 
 function requestDelete(method: string): RequestInit {

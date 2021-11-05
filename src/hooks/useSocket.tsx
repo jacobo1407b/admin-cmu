@@ -6,8 +6,8 @@ import Swal from 'sweetalert2';
 import Logo from 'assets/logo.png';
 import {useDispatch} from 'react-redux';
 import * as patch from 'redux/dispatch';
-
-const enpoint: string = "ws://localhost:3001";
+//http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/
+const enpoint: string = "ws://cmu-backend-dev.us-west-1.elasticbeanstalk.com";
 
 interface IUpdateResponse {
     alumno: string,
@@ -38,7 +38,7 @@ function useSocket() {
     const dispatch = useDispatch()
     const { toggle } = useAudio();
     const socket = io(enpoint);
-
+    
     socket.on(ALERTA, async (data: IResponse) => {
         await toggle();
         new Notification(`${data.alumno.nombre} - ${data.causas}`, {

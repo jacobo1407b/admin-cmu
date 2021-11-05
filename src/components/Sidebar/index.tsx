@@ -1,33 +1,55 @@
 import { useState, FunctionComponent, Fragment } from 'react';
 import { IRuta } from 'types';
 import { Link } from 'react-router-dom';
-import { Menu, Icon } from 'semantic-ui-react';
-import useLogout from 'hooks/logout';
+import { Icon, Menu, Sidebar } from 'semantic-ui-react'
+
 
 
 interface ISidebar {
     items: IRuta[],
-    open: boolean
+    open: boolean,
+    setopen: any
 }
-const MenuLeft: FunctionComponent<ISidebar> = ({ open, items }): JSX.Element => {
-
-    const {logout} = useLogout()
+const MenuLeft: FunctionComponent<ISidebar> = ({ open, items, setopen }): JSX.Element => {
     const [menuItems] = useState(items)
-    const [active, setactive] = useState<any>(0)
 
-    async function isLogout() {
-        logout()
-    }
-
-    function select(id: any) {
-        var element = document.getElementById(active);
-        element?.setAttribute('class', "")
-        var element2 = document.getElementById(id);
-        element2?.setAttribute('class', "active")
-        setactive(id)
-    }
     return (
         <>
+
+            <Sidebar
+                as={Menu}
+                animation='overlay'
+                icon='labeled'
+                inverted
+                onHide={() => setopen(false)}
+                vertical
+                visible={open}
+                width='thin'
+            >
+                {menuItems.map((poste) => (
+                    <Fragment key={poste.id}>
+                        {poste.name === "Perfil" ? null : (
+                            <Link to={poste.path}>
+                                <Menu.Item >
+                                    <Icon name={poste.icon} />
+                                    {poste.name}
+                                </Menu.Item>
+                            </Link>
+
+                        )}
+                    </Fragment>
+                ))}
+            </Sidebar>
+        </>
+    )
+}
+
+export default MenuLeft;
+
+
+/**
+ *
+ * <>
             <input type="checkbox" id="nav-toggle" checked={open} />
             <div className="sidebar">
                 <div className="sidebar-brand">
@@ -76,7 +98,4 @@ const MenuLeft: FunctionComponent<ISidebar> = ({ open, items }): JSX.Element => 
                 </div>
             </div>
         </>
-    )
-}
-
-export default MenuLeft;
+ */

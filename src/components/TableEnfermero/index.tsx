@@ -29,8 +29,8 @@ const TableEnfermero: FunctionComponent<ITSolicitud> = ({ solicitudes,updateStat
             </Table.Header>
 
             <Table.Body>
-                {solicitudes.map((poste) => (
-                    <Table.Row>
+                {solicitudes?.map((poste) => (
+                    <Table.Row key={poste.id_solicitud}>
                         <Table.Cell>
                             <Header as='h4' image inverted>
                                 <CustomAvatar src={poste.img_enfermero} rounded size="mini" />

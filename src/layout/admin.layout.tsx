@@ -6,15 +6,16 @@ import Appbar from "components/Appbar";
 import { routerAdmin } from 'routes/routes';
 import { routAdmin } from 'routes/definition';
 import useLoaders from 'hooks/loaders';
-import {Segment,Sidebar} from 'semantic-ui-react'
+import {Segment,Sidebar} from 'semantic-ui-react';
+import LoaderCustom from 'components/Loader';
 //
 export default function AdmLayout() {
     const [open, setopen] = useState<boolean>(false);
-    useLoaders()
+    const {loading} = useLoaders()
 
     return (
         <div>
-
+            <LoaderCustom loading={loading}/>
             <Appbar pathP={routAdmin.profile} open={open} setopen={setopen} />
             <SideBar items={routerAdmin} setopen={setopen} open={open} />
             <Sidebar.Pusher dimmed={open}>

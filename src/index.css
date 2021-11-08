@@ -161,3 +161,38 @@ main {
   border-radius: 100px!important;
   border: 1px solid #21ba45 !important;
 }
+.ui.inverted.segment, .ui.primary.inverted.segment {
+  border-radius: 50px !important;
+}
+
+.page-loader  img{
+  width: 580px;
+height: 390px;
+margin-top: -195px;
+margin-left: -290px;
+left: 50%;
+top: 50%;
+position: absolute;
+}
+
+.page-loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background-color: #08AEEA;
+  background-image: linear-gradient(135deg, #08AEEA 0%, #2AF598 100%);
+
+
+
+
+  /*background-image: -webkit-linear-gradient(right, #6b48a1, #10418c);*/
+}
+/*
+.ui.dimmer {
+  background-color: #048623 !important;
+}*/
+

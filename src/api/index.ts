@@ -1,5 +1,6 @@
 import { UpdateUser, UserPromise, Carreras, Enfermero } from 'types';
-const apiUrl: string = 'http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/api/v1';
+import {urlApi} from 'utils';
+const apiUrl: string = `http://${urlApi}/api/v1`;
 //http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/
 
 

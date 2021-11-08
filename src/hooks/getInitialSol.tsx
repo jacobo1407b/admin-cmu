@@ -11,6 +11,7 @@ function useInitial() {
     useEffect(() => {
         (async () => {
             dispatch(patch.setSolicitud(await getSolicitudesHoy()))
+            setloading(false);
         })()
     }, [dispatch])
     return { loading, setloading };

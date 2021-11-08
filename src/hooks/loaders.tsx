@@ -16,6 +16,7 @@ function useLoaders() {
                 dispatch(actions.setAlumnos(alumnos.data));
                 dispatch(actions.setCarreras(await getAllCarreras()));
                 dispatch(actions.setEnfermero(enfermeros.data));
+                setloading(false);
         }))()
     }, [dispatch])
     return { loading, setloading };

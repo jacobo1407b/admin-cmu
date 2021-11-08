@@ -7,6 +7,10 @@ function useLogout() {
         localStorage.removeItem('token')
         dispatch(action.setUser(null));
         dispatch(action.setRole(''));
+        dispatch(action.setAlumnos(null));
+        dispatch(action.setEnfermero(null));
+        dispatch(action.setCarreras([]))
+        dispatch(action.setSolicitud(null));
     }
     return{logout}
 }

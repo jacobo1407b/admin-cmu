@@ -25,7 +25,7 @@ export const routerAdmin: IRuta[] = [
         id: 3,
         path: routAdmin.enfermeros,
         icon: 'user doctor',
-        name: "Enfermeros",
+        name: "Medicos",
         component: <Enfermeros />
     },
     {

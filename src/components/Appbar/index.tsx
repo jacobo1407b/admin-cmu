@@ -26,8 +26,6 @@ const Appbar: FunctionComponent<IAppbar> = ({ pathP, setopen, open }) => {
     const user: User = useSelector((state: globalState) => state.user);
     const { logout } = useLogout()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-        useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
 
@@ -35,13 +33,9 @@ const Appbar: FunctionComponent<IAppbar> = ({ pathP, setopen, open }) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-        handleMobileMenuClose();
     };
 
     function handleLogout() {
@@ -104,7 +98,7 @@ const Appbar: FunctionComponent<IAppbar> = ({ pathP, setopen, open }) => {
                             component="div"
                             sx={{ display: { xs: 'none', sm: 'block' } }}
                         >
-                            MUI
+                            CMU
                         </Typography>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

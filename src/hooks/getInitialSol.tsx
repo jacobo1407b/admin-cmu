@@ -10,6 +10,7 @@ function useInitial() {
 
     useEffect(() => {
         (async () => {
+            console.log(await getSolicitudesHoy());
             dispatch(patch.setSolicitud(await getSolicitudesHoy()))
             setloading(false);
         })()

@@ -1,7 +1,8 @@
 {
   "name": "admin-cmu",
   "version": "0.1.0",
-  "main": "public/electron/electron.js",
+  "main": "public/electron.js",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.5.0",
@@ -17,6 +18,7 @@
     "@types/node": "12.12.21",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
@@ -33,14 +35,16 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "serve": "serve -s build",
+    "load-env": "node export-env.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "preelectron-pack": "yarn build",
+    "preelectron-pack": "yarn load-env && yarn build:electron && yarn build",
     "build:electron": "tsc --project tsconfig.electron.json",
-    "electron-pack": "electron-builder -c.extraMetadata.main=build/electron/electron.js",
-    "electron-dev": "yarn build:electron && concurrently  \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-pack": "yarn build:electron && electron-builder -c.extraMetadata.main=build/electron.js",
+    "electron-dev": "yarn load-env && yarn build:electron && concurrently  \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
@@ -67,7 +71,21 @@
     "@types/react-router-dom": "^5.3.1",
     "@types/redux": "^3.6.0",
     "concurrently": "^6.3.0",
+    "dotenv": "^10.0.0",
     "electron": "9.2.0",
+    "electron-builder": "^22.13.1",
+    "serve": "^13.0.2",
+    "server": "^1.0.36",
     "wait-on": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.jacobo.cmu",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   }
 }

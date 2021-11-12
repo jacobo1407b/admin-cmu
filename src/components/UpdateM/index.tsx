@@ -31,7 +31,9 @@ const UpdateM = () => {
     function onUpdatePassword(){
         if(password === ""){
             alert('Completa el campo de contraseña')
-        }else{
+        }else if(password.length < 6){
+            alert('La contraseña debe tener al menos 6 caracteres')
+        } else{
             setloadPassword(true)
             updatePassword(user.id_usuario,password)
             .then(res=>{
@@ -59,6 +61,8 @@ const UpdateM = () => {
             alert('Completa el campo de matricula')
         }else if(matricula === user.matricula){
             alert('Escoge otra contraseña')
+        }else if(matricula.length < 12){
+            alert('La matricula debe tener al menos 11 caracteres')
         }else{
             setloadMatricula(true);
             updateMatricula(user.id_usuario,matricula)

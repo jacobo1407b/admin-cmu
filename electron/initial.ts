@@ -5,7 +5,7 @@ import * as path from 'path'
 
 
 export default class Main {
-    private static icoPat: string = dev? __dirname + "/logo192.png":__dirname + "/favicon.png";
+    private static icoPat: string = dev? __dirname + "/logo192.png":__dirname + "/CMU.png";
     static mainWindow: Electron.BrowserWindow;
     static application: Electron.App;
     static BrowserWindow;
@@ -23,6 +23,7 @@ export default class Main {
     }
 
     private static onReady() {
+        console.log(`file://${__dirname}/index.html`)
         Main.mainWindow = new Main.BrowserWindow({
             width: 1270,
             height: 690,
@@ -45,7 +46,7 @@ export default class Main {
             .loadURL(
                 dev
                     ? "http://localhost:3000"
-                    : `file://${path.join(__dirname, "../index.html")}`
+                    : `file://${__dirname}/index.html`
             );
         if (dev) {
             Main.mainWindow.webContents.openDevTools();

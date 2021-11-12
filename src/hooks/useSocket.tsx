@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import { io } from "socket.io-client";
 import {urlApi} from 'utils';
 import { Alumno, Carrera } from 'types';
@@ -7,7 +8,7 @@ import Swal from 'sweetalert2';
 import Logo from 'assets/logo.png';
 import {useDispatch} from 'react-redux';
 import * as patch from 'redux/dispatch';
-//http://cmu-backend-dev.us-west-1.elasticbeanstalk.com/
+
 const enpoint: string = `ws://${urlApi}`;
 
 interface IUpdateResponse {

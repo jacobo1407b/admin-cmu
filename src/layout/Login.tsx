@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@material-ui/core';
 import { login } from 'api';
-import { Form, Input, Button, Grid, Icon } from 'semantic-ui-react'
+import { Form, Input, Button, Grid, Icon,Image } from 'semantic-ui-react'
 import * as act from 'redux/dispatch'
 import { useDispatch } from 'react-redux';
+import utt from 'assets/CMU.png'
 
 type formLogin = {
     matricula: string,
@@ -26,7 +27,7 @@ function Login(): JSX.Element {
     function onSubmit(e: any) {
         e.preventDefault();
         if (!formData.matricula || !formData.password) {
-            alert('Preencha todos os campos');
+            alert('Completa todos los campos');
         } else {
             setLoading(true)
             login(formData.matricula, formData.password).then(res => {
@@ -42,12 +43,21 @@ function Login(): JSX.Element {
             }).catch(err => {
                 setLoading(false)
                 console.log(err)
+                alert('Error de conexión');
             })
         }
     }
     return (
         <div>
             <Grid stackable centered>
+               
+                <Grid.Row>
+                    <Grid.Column width={16}>
+                    <br/>
+                        <Image src={utt} size='medium' centered />
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
                 <Grid.Column width={8}>
                     <Card>
                         <CardContent>
@@ -91,6 +101,8 @@ function Login(): JSX.Element {
                     </Card>
 
                 </Grid.Column>
+                </Grid.Row>
+                
             </Grid>
         </div>
     );

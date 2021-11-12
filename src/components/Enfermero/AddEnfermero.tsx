@@ -69,6 +69,10 @@ const AddEnfermero: FunctionComponent<IAddEnfermero> = ({ edit, data, i }) => {
     function onSubmit(e: any) {
         if (!validateForm()) {
             alert('Todos los campos son obligatorios');
+        }else if(formData.password.length < 6){
+            alert('La contraseña debe tener al menos 6 caracteres')
+        }else if(formData.matricula.length < 12){
+            alert('La matricula debe tener al menos 11 caracteres')
         } else {
             setLoading(true);
             registerEnfermero(formData)

@@ -7,10 +7,15 @@
 
 # testing
 /coverage
+/src/utils/env.ts
 
 # production
 /build
-/public/electron
+/public/electron.js.map
+/public/electron.js
+/public/initial.js
+/public/initial.js.map
+/dist
 
 # misc
 .DS_Store

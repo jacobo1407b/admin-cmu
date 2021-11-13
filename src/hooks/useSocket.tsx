@@ -1,4 +1,3 @@
-import {useEffect} from 'react';
 import { io } from "socket.io-client";
 import {urlApi} from 'utils';
 import { Alumno, Carrera } from 'types';
@@ -41,6 +40,12 @@ function useSocket() {
     const { toggle } = useAudio();
     const socket = io(enpoint);
     
+    /*socket.emit(ALERTA, {
+        id_alumno: '618f1f32a6f83ca31f000001',
+        ubicacion: 'Edificio H',
+        causas: 'Dolor estomago',
+        solicitante: false,
+    });*/
     socket.on(ALERTA, async (data: IResponse) => {
         await toggle();
         new Notification(`${data.alumno.nombre} - ${data.causas}`, {

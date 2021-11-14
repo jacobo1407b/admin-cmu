@@ -116,3 +116,8 @@ export function deleteUser(id: string) {
 export function getSolicitudesHoy(){
     return fetch(`${apiUrl}/history/hoy`, requestOptions('GET',null,true)).then(response => response.json())
 }
+
+
+export function getHistoryAll(body: any){
+    return fetch(`${apiUrl}/history/all`, requestOptions('POST',body,true)).then(response => response.json())
+}

@@ -64,7 +64,8 @@ export type globalState = {
     enfermeros: Enfermero[] | null,
     modal: Modal,
     carreras: Carreras[] | null,
-    solicitudes:SolicitudRealtime[]
+    solicitudes:SolicitudRealtime[],
+    data: any
 }
 export type Action = { type: string; payload: any }
 export interface IRuta {

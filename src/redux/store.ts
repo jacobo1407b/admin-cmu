@@ -25,7 +25,8 @@ const initialState: globalState = {
         content: null
     },
     carreras: [],
-    solicitudes: []
+    solicitudes: [],
+    data: []
 };
 
 function updateState(state = initialState, action: Action) {
@@ -64,6 +65,11 @@ function updateState(state = initialState, action: Action) {
             return {
                 ...state,
                 solicitudes: action.payload,
+            }
+        case actions.SET_HISTORIAL:
+            return {
+                ...state,
+                data: action.payload,
             }
         default:
             return {

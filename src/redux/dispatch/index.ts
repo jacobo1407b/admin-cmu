@@ -5,3 +5,4 @@ export { setAlumnos } from './alumnos';
 export { setCarreras } from './carreras';
 export { setEnfermero } from './enfermeros';
 export { setSolicitud } from './solicitud';
+export { setHistory } from './history';

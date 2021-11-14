@@ -41,7 +41,7 @@ function useSocket() {
     const socket = io(enpoint);
     
     /*socket.emit(ALERTA, {
-        id_alumno: '618f1f32a6f83ca31f000001',
+        id_alumno: '6184a3dcbc4e2c39d7000008',
         ubicacion: 'Edificio H',
         causas: 'Dolor estomago',
         solicitante: false,

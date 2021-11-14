@@ -60,9 +60,9 @@ const UpdateM = () => {
         if(!matricula){
             alert('Completa el campo de matricula')
         }else if(matricula === user.matricula){
-            alert('Escoge otra contraseña')
-        }else if(matricula.length < 12){
-            alert('La matricula debe tener al menos 11 caracteres')
+            alert('Escoge otra matricula')
+        }else if(matricula.length < 11 || matricula.length > 11){
+            alert('La matricula debe tener 11 caracteres')
         }else{
             setloadMatricula(true);
             updateMatricula(user.id_usuario,matricula)

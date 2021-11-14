@@ -86,7 +86,7 @@ const AddAlumno: FunctionComponent<IAddAlumno> = ({ edit, data,i }) => {
             alert('Todos los campos son obligatorios')
         } else if(formAlumno.password.length < 6){
             alert('La contraseña debe tener al menos 6 caracteres')
-        }else if(formAlumno.matricula.length < 12){
+        }else if(formAlumno.matricula.length < 11 || formAlumno.matricula.length > 11){
             alert('La matricula debe tener al menos 11 caracteres')
         }else {
             setloading(true)

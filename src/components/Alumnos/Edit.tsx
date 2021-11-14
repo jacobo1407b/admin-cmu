@@ -64,8 +64,8 @@ const Edit: FunctionComponent<IProps> = ({ type, data, ctxA, i,ctxE }) => {
     }
 
     function onSubmitMatricula() {
-        if (matricula.length < 12 || !matricula) {
-            alert("La Matricula debe tener al menos 11 caracteres")
+        if (matricula.length < 11 || !matricula || matricula.length > 11) {
+            alert("La Matricula debe tener 11 caracteres")
         } else {
             setLoading(true);
             updateMatricula(data.id_usuario, matricula)

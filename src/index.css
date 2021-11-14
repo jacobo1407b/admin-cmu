@@ -213,4 +213,6 @@ main {
   background-color: #ffffff;
 }
 
-
+.ui.segment {
+  position: inherit !important;
+}

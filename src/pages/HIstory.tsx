@@ -38,7 +38,7 @@ function History() {
         setLoading(false);
     }
     return (
-        <div>
+        <div style={{height:"100%"}}>
             <Dimmer active={loading}>
                 <Loader size='massive'>Loading</Loader>
             </Dimmer>
@@ -61,6 +61,7 @@ function History() {
                             color="orange"
                             circular
                             onClick={onSubmit}
+                            disabled={value>=getAnio()?true:false}
                         >
                             Consultar
                         </Button>
